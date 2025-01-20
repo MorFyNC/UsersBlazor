@@ -16,7 +16,7 @@
             {
                 Id = 1,
                 Name = "John Doe",
-                Role = "Admin"
+                isAdmin = true
             };
         }
     }
@@ -25,6 +25,6 @@
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Role { get; set; }
+        public bool isAdmin { get; set; }
     }
 }

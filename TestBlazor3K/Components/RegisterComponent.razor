@@ -1,8 +1,7 @@
 ﻿@using TestBlazor3K.ApiRequest.Model
-@rendermode InteractiveServer
 <head>
     <meta charset="UTF-8">
-    <meta name="viewpaort" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -84,7 +83,7 @@
 <body>
     <div class="registration-form">
         <h2>Регистрация</h2>
-        <form>
+        @* <form> *@
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required @bind="newUser.Login">
 
@@ -97,8 +96,8 @@
             <label for="password">Пароль:</label>
             <input type="password" id="password" name="password" required @bind="newUser.Password">
 
-            <button type="submit" @onclick="async() => await OnRegisterBtnClick.InvokeAsync(newUser)">Зарегистрироваться</button>
-        </form>
+            <button type="submit" @onclick="OnRegisterBtnClickInvoke">Зарегистрироваться</button>
+        @* </form> *@
         <div class="login-link">
             <p>Уже есть аккаунт? <a href="#" @onclick="OnSwitchBtnClick">Войти</a></p>
         </div>
@@ -111,4 +110,9 @@
     [Parameter]
     public EventCallback<ReqDataUser> OnRegisterBtnClick { get; set; }
     private ReqDataUser newUser = new ReqDataUser();
+
+    private async Task OnRegisterBtnClickInvoke()
+    {
+        await OnRegisterBtnClick.InvokeAsync(newUser);
+    }
 }
