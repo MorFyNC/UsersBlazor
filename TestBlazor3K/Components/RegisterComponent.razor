@@ -1,0 +1,114 @@
+﻿@using TestBlazor3K.ApiRequest.Model
+@rendermode InteractiveServer
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewpaort" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .registration-form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+            .registration-form h2 {
+                margin-bottom: 20px;
+                font-size: 24px;
+                text-align: center;
+            }
+
+            .registration-form label {
+                display: block;
+                margin-bottom: 5px;
+                font-weight: bold;
+            }
+
+            .registration-form input[type="text"],
+            .registration-form input[type="email"],
+            .registration-form textarea,
+            .registration-form input[type="password"] {
+                width: 100%;
+                padding: 10px;
+                margin-bottom: 15px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                font-size: 16px;
+            }
+
+            .registration-form textarea {
+                resize: vertical;
+                height: 100px;
+            }
+
+            .registration-form button {
+                width: 100%;
+                padding: 10px;
+                background-color: #28a745;
+                border: none;
+                border-radius: 4px;
+                color: #fff;
+                font-size: 16px;
+                cursor: pointer;
+            }
+
+                .registration-form button:hover {
+                    background-color: #218838;
+                }
+
+            .registration-form .login-link {
+                text-align: center;
+                margin-top: 10px;
+            }
+
+                .registration-form .login-link a {
+                    color: #007bff;
+                    text-decoration: none;
+                }
+
+                    .registration-form .login-link a:hover {
+                        text-decoration: underline;
+                    }
+    </style>
+</head>
+<body>
+    <div class="registration-form">
+        <h2>Регистрация</h2>
+        <form>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required @bind="newUser.Login">
+
+            <label for="name">Имя:</label>
+            <input type="text" id="name" name="name" required @bind="newUser.Name">
+
+            <label for="description">Описание о себе:</label>
+            <textarea id="description" name="description" @bind="newUser.Description"></textarea>
+
+            <label for="password">Пароль:</label>
+            <input type="password" id="password" name="password" required @bind="newUser.Password">
+
+            <button type="submit" @onclick="async() => await OnRegisterBtnClick.InvokeAsync(newUser)">Зарегистрироваться</button>
+        </form>
+        <div class="login-link">
+            <p>Уже есть аккаунт? <a href="#" @onclick="OnSwitchBtnClick">Войти</a></p>
+        </div>
+    </div>
+</body>
+
+@code {
+    [Parameter]
+    public EventCallback OnSwitchBtnClick { get; set; }
+    [Parameter]
+    public EventCallback<ReqDataUser> OnRegisterBtnClick { get; set; }
+    private ReqDataUser newUser = new ReqDataUser();
+}

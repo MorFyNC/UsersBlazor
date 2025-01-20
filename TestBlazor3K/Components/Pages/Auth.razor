@@ -1,0 +1,33 @@
+﻿@page "/"
+@using TestBlazor3K.ApiRequest
+@using TestBlazor3K.ApiRequest.Model
+@rendermode InteractiveServer
+@if(isLogining)
+{
+    <title>Вход</title>
+    <LoginComponent OnSwitchBtnClick="SwitchComponents" OnLoginBtnClick="Login"></LoginComponent>
+}
+else
+{
+    <title>Регистрация</title>
+    <RegisterComponent OnSwitchBtnClick="SwitchComponents" OnRegisterBtnClick="Register"></RegisterComponent>
+}
+<h1></h1>
+@code {
+    bool isLogining = true;
+    void SwitchComponents() => isLogining = !isLogining;
+    [Inject] private ApiRequestService ApiRequest { get; set; }
+    void Login()
+    {
+
+    }
+
+    private async Task Register(ReqDataUser registerData)
+    {
+        var response = await ApiRequest.AddNewUser(registerData);
+        if(!response.status)
+        {
+            Console.WriteLine(response.message);
+        }
+    }
+}
