@@ -1,7 +1,15 @@
-﻿@page "/"
+﻿@page "/login"
+
+@using Blazor.Extensions.Storage
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 @using TestBlazor3K.ApiRequest
 @using TestBlazor3K.ApiRequest.Model
-@rendermode InteractiveServer
+@using TestBlazor3K.ApiRequest.Services
+@rendermode @(new InteractiveServerRenderMode(prerender: false))
+@inject NavigationManager Navigation
+@inject ProtectedLocalStorage _sessionStorage
+
 @if(isLogining)
 {
     <title>Вход</title>
@@ -15,19 +23,36 @@ else
 <h1></h1>
 @code {
     bool isLogining = true;
+    [AllowAnonymous]
     void SwitchComponents() => isLogining = !isLogining;
     [Inject] private ApiRequestService ApiRequest { get; set; }
-    void Login()
-    {
 
+    private async Task Login(ReqUserLogin userLogin)
+    {
+        var response = await ApiRequest.LoginAsync(userLogin);
+        if (!response.Status)
+        {
+            Console.WriteLine(response.Message);
+            return;
+        }
+        Console.WriteLine(response.Message);
+        UserService.CurrentUserData = response.Data;
+        await _sessionStorage.SetAsync("JWT", response.Data.JWT);
+        Navigation.NavigateTo("/");
     }
 
     private async Task Register(ReqDataUser registerData)
     {
         var response = await ApiRequest.AddNewUser(registerData);
-        if(!response.status)
+        if (!response.status)
         {
             Console.WriteLine(response.message);
+            return;
         }
+        await Login(new ReqUserLogin() { Login=registerData.Login, Password=registerData.Password });
+    }
+    async void Set(string s1, string s2)
+    {
+        await _sessionStorage.SetAsync(s1, s2);
     }
 }

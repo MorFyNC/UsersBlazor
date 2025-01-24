@@ -1,4 +1,4 @@
-﻿@page "/UsersTable"
+﻿@page "/"
 @using TestBlazor3K.ApiRequest
 @using TestBlazor3K.ApiRequest.Model
 @rendermode InteractiveServer
@@ -77,17 +77,18 @@
 
     [Inject] private ApiRequestService ApiRequest { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await getAllUsers();
     }
+   
 
     private async Task getAllUsers() 
     {
         var userData = await ApiRequest.GetAllUsersAsync();
         users = userData?.data?.users ?? new List<UserDataShort>();
 
-        StateHasChanged();
+        // StateHasChanged();
     }
 
 

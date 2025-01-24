@@ -1,11 +1,7 @@
-﻿@using TestBlazor3K.ApiRequest.Services
+﻿@using TestBlazor3K.ApiRequest
+@using TestBlazor3K.ApiRequest.Services
 @inherits LayoutComponentBase
-@inject UserService userService
 <div class="page">
-    <div class="sidebar" hidden="@(userService.CurrentUser is null)">
-        <NavMenu />
-    </div>
-
     <main>
         <article class="content px-4">
             @Body

@@ -1,30 +1,15 @@
-﻿namespace TestBlazor3K.ApiRequest.Services
+﻿using Blazor.Extensions.Storage;
+using TestBlazor3K.ApiRequest.Model;
+
+namespace TestBlazor3K.ApiRequest.Services
 {
     public class UserService
     {
-        public User CurrentUser { get; private set; }
-
-        public async Task LoadUserAsync()
+        public static LoginResponseDataModel CurrentUserData { get; set; }
+        private ApiRequestService _apiRequest;
+        public UserService(ApiRequestService apiRequestService)
         {
-            CurrentUser = await GetUserFromApiAsync();
+            _apiRequest = apiRequestService;
         }
-
-        private async Task<User> GetUserFromApiAsync()
-        {
-            await Task.Delay(1000);
-            return new User
-            {
-                Id = 1,
-                Name = "John Doe",
-                isAdmin = true
-            };
-        }
-    }
-
-    public class User
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public bool isAdmin { get; set; }
     }
 }
